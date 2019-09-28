@@ -28,6 +28,7 @@
  * @licence Simplified BSD License
  */
 const path = require('path');
+const dbAuth = require('@osjs/database-auth');
 
 //
 // This is where you can place your custom CLI tasks
@@ -35,9 +36,13 @@ const path = require('path');
 // https://manual.os-js.org/v3/resource/official/
 //
 
+const dbCli = dbAuth.cli(require('../database-connection.js'));
+
 module.exports = {
-  discover: [
-    path.resolve(__dirname, '../packages') // OS.js/src/packages
-  ],
-  tasks: []
+	discover: [
+		path.resolve(__dirname, '../packages') // OS.js/src/packages
+	],
+	tasks: [
+		dbCli,
+	]
 };

@@ -49,5 +49,15 @@ services:
     volumes:
       - ./src:/usr/src/osjs/src
       - ./vfs:/usr/src/osjs/vfs
+    links:
+      - db
     ports:
       - "${DOCKER_NODE_PORT:-8000}:8000"
+  db:
+    image: mysql:latest
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - 'osjs-db:/var/lib/mysql'
+volumes:
+  osjs-db:

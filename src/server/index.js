@@ -48,12 +48,20 @@ const {
 } = require('@osjs/server');
 
 const config = require('./config.js');
+const dbAuth = require('@osjs/database-auth');
 const osjs = new Core(config, {});
 
 osjs.register(CoreServiceProvider, {before: true});
 osjs.register(PackageServiceProvider);
 osjs.register(VFSServiceProvider);
-osjs.register(AuthServiceProvider);
+osjs.register(AuthServiceProvider, {
+	args: {
+		adapter: dbAuth.adapter,
+		config: {
+			connection: require('../database-connection.js'),
+		},
+	},
+});
 osjs.register(SettingsServiceProvider);
 
 process.on('SIGTERM', () => osjs.destroy());
